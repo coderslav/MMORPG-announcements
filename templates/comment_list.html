@@ -1,0 +1,29 @@
+<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+{% if author_comments %}
+    <table>
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>Announcement</th>
+                <th>Confirmed</th>
+                <th>Time IN</th>
+                <th></th>
+            </tr>
+        </thead>
+        {% for comment in author_comments %}
+        <tbody>
+            <tr>
+                <td>{{ comment.com_body }}</td>
+                <td>{{ comment.com_ann }}</td>
+                <td>{% if comment.com_confirmed %}YES{% else %}NO{% endif %}</td>
+                <td>{{ comment.com_time_in|date:"d-m-Y H:i" }}</td>
+                <td><button> <a href={% url 'comment_edit' comment.id %}>Редактировать</a></button>
+                    <button> <a href={% url 'comment_delete' comment.id %}>Удалить</a> </button></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+{% else %}
+    <h2>У вас нет комментариев</h2>
+{% endif %}
+<a href={% url 'main' %}><u>Назад</u></a>

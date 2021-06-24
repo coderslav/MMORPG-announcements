@@ -1,0 +1,13 @@
+<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+{% if user == object.ann_author %}
+<h2>Вы действительно хотите удалить данную публикацию: "{{announcement}}" ?</h2>
+<form method="POST">
+{% csrf_token %}
+<input type="submit" value=Подтвердить></form>
+<form action={% url 'main' %}>
+<input type="submit" value="Отменить" />
+</form>
+{% else %}
+<h1>Думали, все так просто? ;)<br>Эта страница доступна только автору объявления</h1>
+{% endif %}
+<a href={% url 'main' %}><u>Назад</u></a>

@@ -1,10 +1,16 @@
 {% load custom_filters_and_tags %}
 <h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
-
+<form action={% url 'create' %}>
+<input type="submit" value="Создать оповещение" />
+</form>
+<form action={% url 'comment_list' %}>
+<input type="submit" value="Редактировать мои комментарии" />
+</form>
 {% if object_list %}
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Author</th>
                 <th>Title</th>
                 <th>Content</th>
@@ -16,6 +22,14 @@
         {% for ann in object_list %}
         <tbody>
             <tr>
+                <td>{% if user == ann.ann_author %}
+                    <form action={% url 'update' ann.id %}>
+                    <input type="submit" value="Редактировать" />
+                    </form>
+                    <form action={% url 'delete' ann.id %}>
+                    <input type="submit" value="Удалить" />
+                    </form>
+                {% endif %}</td>
                 <td>{{ ann.ann_author }}</td>
                 <td>{{ ann.ann_title }}</td>
                 <td>{{ ann.ann_body|safe }}</td>
@@ -23,9 +37,12 @@
                 <td>{{ ann|confirmed_comment_filter|join:",<br> " }}
                     {% if user == ann.ann_author %}
                     {% if ann|unconfirmed_comment_filter %}
-                        <br><b>Внимание! У вас есть <a href={% url 'ann_detail' ann.id %}>неподтвержденные</a> комментарии в этом оповещении!</b>
+                        <br><b>Внимание! У вас есть <a href={% url 'ann_details' ann.id %}>неподтвержденные</a><br>комментарии в этом оповещении!</b>
                     {% endif %}
-                    {% endif %}</td>
+                    {% endif %}
+                    <form action={% url 'comment_create' %}>
+                    <input type="submit" value="Написать комментарий" />
+                    </form></td>
                 <td>{{ ann.ann_time_in|date:"d-m-Y H:i"}}</td>
             </tr>
         </tbody>
