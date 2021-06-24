@@ -1,0 +1,36 @@
+{% load custom_filters_and_tags %}
+<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+
+{% if object_list %}
+    <table>
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Category</th>
+                <th>Comments</th>
+                <th>Time IN</th>
+            </tr>
+        </thead>
+        {% for ann in object_list %}
+        <tbody>
+            <tr>
+                <td>{{ ann.ann_author }}</td>
+                <td>{{ ann.ann_title }}</td>
+                <td>{{ ann.ann_body|safe }}</td>
+                <td>{{ ann.ann_category.all|join:",<br> " }}</td>
+                <td>{{ ann|confirmed_comment_filter|join:",<br> " }}
+                    {% if user == ann.ann_author %}
+                    {% if ann|unconfirmed_comment_filter %}
+                        <br><b>Внимание! У вас есть <a href={% url 'ann_detail' ann.id %}>неподтвержденные</a> комментарии в этом оповещении!</b>
+                    {% endif %}
+                    {% endif %}</td>
+                <td>{{ ann.ann_time_in|date:"d-m-Y H:i"}}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+{% else %}
+    <h2>Объявлений нет!</h2>
+{% endif %}

@@ -1,0 +1,40 @@
+{% if user == object.ann_author %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Category</th>
+            <th>Comments</th>
+            <th>Time IN</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ object.ann_author }}</td>
+            <td>{{ object.ann_title }}</td>
+            <td>{{ object.ann_body|safe }}</td>
+            <td>{{ object.ann_category.all|join:",<br> " }}</td>
+            <td>{{ ann_comments.all|join:",<br> " }}</td>
+            <td>{{ object.ann_time_in|date:"d-m-Y H:i"}}</td>
+        </tr>
+    </tbody>
+</table>
+{% if ann_comments_not_confirmed %}
+<h3>Неподтвержденные комментарии в объявлении:</h3>
+{% for a_c_n_c in ann_comments_not_confirmed %}
+{{ a_c_n_c }}
+<form method="POST">
+{% csrf_token %}
+<button type="submit" name="a_c_n_c_id" value="{{ a_c_n_c.id }}">Подтвердить</button>
+</form>
+{% endfor %}
+{% endif %}
+<br><br>
+{% else %}
+<h1>Думали, все так просто? ;)<br>Эта страница доступна только автору объявления</h1>
+{% endif %}
+
+<a href={% url 'main' %}><u>Назад на главную</u></a>
