@@ -1,4 +1,5 @@
 <h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+
 {% if user == ann.ann_author %}
     <h2>Вы действительно хотите удалить данный отклик: << {{comment}} >> ?</h2>
     <form method="POST">
