@@ -1,0 +1,39 @@
+{% load custom_filters_and_tags %}
+<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+{% if anns %}
+    <h1>Мои объявления:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Время публикации</th>
+                <th>Заголовок</th>
+                <th>Содержание</th>
+                <th>Категория</th>
+                <th>Подтвержденные отклики</th>
+                <th>Неподтвержденные отклики</th>
+            </tr>
+        </thead>
+        {% for ann in anns %}
+        <tbody>
+            <tr>
+                <td>{{ ann.ann_time_in|date:"d-m-Y H:i"}}</td>
+                <td>{{ ann.ann_title }}</td>
+                <td>{{ ann.ann_body|safe }}</td>
+                <td>{{ ann.ann_category.all|join:",<br> " }}</td>
+                <td>{{ ann|confirmed_comment_filter|join:",<br> " }}</td>
+                <td>{% for comment in ann|unconfirmed_comment_filter %}{{ comment }}
+                <form method="POST">
+                {% csrf_token %}
+                <button type="submit" name="comment_id" value="{{ comment.id }}">Подтвердить</button>
+                </form>
+                <form action={% url 'comment_delete_by_ann_author' comment.id %}>
+                <input type="submit" value="Удалить" />
+                </form>{% endfor %}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table><br><br>
+{% else %}
+    <h1>У вас еще нет объявлений</h1>
+{% endif %}
+<a href={% url 'main' %}><u>Назад</u></a>

@@ -1,29 +1,27 @@
 <h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
 {% if user == object.com_author %}
-    <a href={% url 'comment_list' %}><u>Посмотреть все мои комментарии</u></a><br><br>
+    <a href={% url 'comment_list' %}><u>Посмотреть все мои отклики</u></a><br><br>
 
     <table>
         <thead>
             <tr>
-                <th>Author</th>
-                <th>Text</th>
-                <th>Announcement</th>
-                <th>Confirmed</th>
-                <th>Time IN</th>
+                <th>Содержание</th>
+                <th>Объявление</th>
+                <th>Подтверждено</th>
+                <th>Время публикации</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ object.com_author }}</td>
                 <td>{{ object.com_body }}</td>
                 <td>{{ object.com_ann }}</td>
-                <td>{% if oject.com_confirmed %}YES{% else %}NO{% endif %}</td>
+                <td>{% if oject.com_confirmed %}ДА{% else %}НЕТ{% endif %}</td>
                 <td>{{ object.com_time_in|date:"d-m-Y H:i" }}</td>
             </tr>
         </tbody>
     </table>
 {% else %}
-    <h1>Думали, все так просто? ;)<br>Эта страница доступна только автору комментария</h1>
+    <h1>Думали, все так просто? ;)<br>Эта страница доступна только автору отклика</h1>
 {% endif %}
 
 <a href={% url 'main' %}><u>Назад</u></a>

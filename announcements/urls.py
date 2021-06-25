@@ -13,4 +13,6 @@ urlpatterns = [
     path('comments/', CommentList.as_view(), name='comment_list'),
     path('comments/edit/<int:pk>', CommentEdit.as_view(), name='comment_edit'),
     path('comments/delete/<int:pk>', CommentDelete.as_view(), name='comment_delete'),
+    path('private/', PrivateAccount.as_view(), name='private_account'),
+    path('private/delete/<int:pk>', CommentDeleteByAnnAuthor.as_view(), name='comment_delete_by_ann_author'),
 ]
