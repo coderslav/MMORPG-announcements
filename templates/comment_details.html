@@ -1,4 +1,4 @@
-<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'account_logout' %}>Выйти</a><br><br><br>
 {% if user == object.com_author %}
     <a href={% url 'comment_list' %}><u>Посмотреть все мои отклики</u></a><br><br>
 

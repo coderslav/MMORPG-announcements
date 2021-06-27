@@ -6,11 +6,6 @@ from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-def logout(request):
-    auth.logout(request)
-    return redirect('main')
-
-
 class MainPageView(ListView):
     model = Announcement
     template_name = 'main.html'

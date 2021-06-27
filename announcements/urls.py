@@ -4,7 +4,6 @@ from .views import *
 urlpatterns = [
     path('', MainPageView.as_view(), name='main'),
     path('ann/<int:pk>', AnnDetails.as_view(), name='ann_details'),
-    path('logout/', logout, name='logout'),
     path('create/', AnnCreate.as_view(), name='create'),
     path('delete/<int:pk>', AnnDelete.as_view(), name='delete'),
     path('edit/<int:pk>', AnnEdit.as_view(), name='update'),

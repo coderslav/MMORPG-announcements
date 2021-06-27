@@ -1,5 +1,5 @@
 {% load custom_filters_and_tags %}
-<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'logout' %}>Выйти</a><br><br><br>
+<h3>Вы авторизованы, как: <u>{{ user }}</u></h3> <a href={% url 'account_logout' %}>Выйти</a><br><br><br>
 <form action={% url 'private_account' %}>
 <input type="submit" value="Личный кабинет" />
 </form>
