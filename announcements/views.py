@@ -1,4 +1,3 @@
-from django.contrib import auth
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .forms import AnnForm, CommentForm
@@ -9,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class MainPageView(ListView):
     model = Announcement
     template_name = 'main.html'
+    ordering = ['-ann_time_in']
 
 
 class AnnDetails(LoginRequiredMixin, DetailView):
@@ -18,7 +18,7 @@ class AnnDetails(LoginRequiredMixin, DetailView):
     def post(self, request, pk):
         comment_for_change = Comment.objects.get(id=request.POST.get('a_c_n_c_id'))
         comment_for_change.com_confirmed = True
-        comment_for_change.save()
+        comment_for_change.save(update_fields=['com_confirmed'])
         return redirect('ann_details', pk)
 
 
@@ -52,6 +52,7 @@ class CommentDetails(LoginRequiredMixin, DetailView):
 class CommentList(LoginRequiredMixin, ListView):
     model = Comment
     template_name = 'comment_list.html'
+    ordering = ['-com_time_in']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,6 +75,7 @@ class CommentEdit(LoginRequiredMixin, UpdateView):
 class PrivateAccount(LoginRequiredMixin, ListView):
     model = Announcement
     template_name = 'private_account.html'
+    ordering = ['-ann_time_in']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,7 +85,7 @@ class PrivateAccount(LoginRequiredMixin, ListView):
     def post(self, request):
         comment_for_change = Comment.objects.get(id=request.POST.get('comment_id'))
         comment_for_change.com_confirmed = True
-        comment_for_change.save()
+        comment_for_change.save(update_fields=['com_confirmed'])
         return redirect('private_account')
 
 
