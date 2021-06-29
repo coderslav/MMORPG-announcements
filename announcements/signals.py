@@ -3,7 +3,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Comment
 from django.template.loader import render_to_string
-from MMORPG_ANNOUNCEMENTS.settings import DEFAULT_FROM_EMAIL
 
 
 @receiver(post_save, sender=Comment)
@@ -16,7 +15,7 @@ def new_comment(sender, instance, created, **kwargs):
             subject='У вас новый отклик на сайте MMORPG-announcements',
             message=None,
             html_message=html_content,
-            from_email=None,  # will use DEFAULT_FROM_EMAIL from settings.py
+            from_email=None,  # will use DEFAULT_FROM_EMAIL variable from settings.py
             recipient_list=[instance.com_ann.ann_author.email],
             fail_silently=False,
         )
@@ -31,7 +30,7 @@ def com_accepted(sender, instance, update_fields,  **kwargs):
             subject='Ваш отклик на сайте MMORPG-announcements одобрен!',
             message=None,
             html_message=html_content,
-            from_email=None,  # will use DEFAULT_FROM_EMAIL from settings.py
+            from_email=None,  # will use DEFAULT_FROM_EMAIL variable from settings.py
             recipient_list=[instance.com_ann.ann_author.email],
             fail_silently=False,
         )

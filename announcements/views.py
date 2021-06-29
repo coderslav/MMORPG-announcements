@@ -52,11 +52,10 @@ class CommentDetails(LoginRequiredMixin, DetailView):
 class CommentList(LoginRequiredMixin, ListView):
     model = Comment
     template_name = 'comment_list.html'
-    ordering = ['-com_time_in']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author_comments'] = Comment.objects.filter(com_author=self.request.user)
+        context['author_comments'] = Comment.objects.filter(com_author=self.request.user).order_by('-com_time_in')
         return context
 
 
@@ -75,11 +74,10 @@ class CommentEdit(LoginRequiredMixin, UpdateView):
 class PrivateAccount(LoginRequiredMixin, ListView):
     model = Announcement
     template_name = 'private_account.html'
-    ordering = ['-ann_time_in']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['anns'] = Announcement.objects.filter(ann_author=self.request.user)
+        context['anns'] = Announcement.objects.filter(ann_author=self.request.user).order_by('-ann_time_in')
         return context
 
     def post(self, request):
